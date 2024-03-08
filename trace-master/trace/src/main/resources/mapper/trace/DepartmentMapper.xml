@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.DepartmentMapper">
+    
+    <resultMap type="Department" id="DepartmentResult">
+        <result property="departmentId"    column="department_id"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="departmentRemarks"    column="department_remarks"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDepartmentVo">
+        select department_id, department_name, department_remarks, create_time, update_time from trace_department
+    </sql>
+
+    <select id="selectDepartmentList" parameterType="Department" resultMap="DepartmentResult">
+        <include refid="selectDepartmentVo"/>
+        <where>  
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="departmentRemarks != null  and departmentRemarks != ''"> and department_remarks = #{departmentRemarks}</if>
+        </where>
+    </select>
+    
+    <select id="selectDepartmentByDepartmentId" parameterType="Long" resultMap="DepartmentResult">
+        <include refid="selectDepartmentVo"/>
+        where department_id = #{departmentId}
+    </select>
+        
+    <insert id="insertDepartment" parameterType="Department" useGeneratedKeys="true" keyProperty="departmentId">
+        insert into trace_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null">department_name,</if>
+            <if test="departmentRemarks != null">department_remarks,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null">#{departmentName},</if>
+            <if test="departmentRemarks != null">#{departmentRemarks},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDepartment" parameterType="Department">
+        update trace_department
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departmentName != null">department_name = #{departmentName},</if>
+            <if test="departmentRemarks != null">department_remarks = #{departmentRemarks},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where department_id = #{departmentId}
+    </update>
+
+    <delete id="deleteDepartmentByDepartmentId" parameterType="Long">
+        delete from trace_department where department_id = #{departmentId}
+    </delete>
+
+    <delete id="deleteDepartmentByDepartmentIds" parameterType="String">
+        delete from trace_department where department_id in 
+        <foreach item="departmentId" collection="array" open="(" separator="," close=")">
+            #{departmentId}
+        </foreach>
+    </delete>
+</mapper>

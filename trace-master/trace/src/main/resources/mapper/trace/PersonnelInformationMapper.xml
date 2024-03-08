@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.PersonnelInformationMapper">
+    
+    <resultMap type="PersonnelInformation" id="PersonnelInformationResult">
+        <result property="personnelInformationId"    column="personnel_information_id"    />
+        <result property="personnelInformationName"    column="personnel_information_name"    />
+        <result property="personnelInformationGender"    column="personnel_information_gender"    />
+        <result property="personnelInformationDuty"    column="personnel_information_duty"    />
+        <result property="personnelInformationDepartNumber"    column="personnel_information_depart_number"    />
+        <result property="personnelInformationPhone"    column="personnel_information_phone"    />
+        <result property="personnelInformationPassword"    column="personnel_information_password"    />
+        <result property="personnelInformationLog"    column="personnel_information_log"    />
+        <result property="personnelInformationRemark"    column="personnel_information_remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPersonnelInformationVo">
+        select personnel_information_id, personnel_information_name, personnel_information_gender, personnel_information_duty, personnel_information_depart_number, personnel_information_phone, personnel_information_password, personnel_information_log, personnel_information_remark, create_time, update_time from trace_personnel_information
+    </sql>
+
+    <select id="selectPersonnelInformationList" parameterType="PersonnelInformation" resultMap="PersonnelInformationResult">
+        <include refid="selectPersonnelInformationVo"/>
+        <where>  
+            <if test="personnelInformationId != null  and personnelInformationId != ''"> and personnel_information_id = #{personnelInformationId}</if>
+            <if test="personnelInformationName != null  and personnelInformationName != ''"> and personnel_information_name like concat('%', #{personnelInformationName}, '%')</if>
+            <if test="personnelInformationGender != null  and personnelInformationGender != ''"> and personnel_information_gender = #{personnelInformationGender}</if>
+            <if test="personnelInformationDuty != null  and personnelInformationDuty != ''"> and personnel_information_duty = #{personnelInformationDuty}</if>
+            <if test="personnelInformationDepartNumber != null "> and personnel_information_depart_number = #{personnelInformationDepartNumber}</if>
+            <if test="personnelInformationPhone != null  and personnelInformationPhone != ''"> and personnel_information_phone = #{personnelInformationPhone}</if>
+            <if test="personnelInformationPassword != null  and personnelInformationPassword != ''"> and personnel_information_password = #{personnelInformationPassword}</if>
+            <if test="personnelInformationLog != null "> and personnel_information_log = #{personnelInformationLog}</if>
+            <if test="personnelInformationRemark != null  and personnelInformationRemark != ''"> and personnel_information_remark = #{personnelInformationRemark}</if>
+        </where>
+    </select>
+    
+    <select id="selectPersonnelInformationByPersonnelInformationId" parameterType="String" resultMap="PersonnelInformationResult">
+        <include refid="selectPersonnelInformationVo"/>
+        where personnel_information_id = #{personnelInformationId}
+    </select>
+        
+    <insert id="insertPersonnelInformation" parameterType="PersonnelInformation">
+        insert into trace_personnel_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="personnelInformationId != null">personnel_information_id,</if>
+            <if test="personnelInformationName != null">personnel_information_name,</if>
+            <if test="personnelInformationGender != null">personnel_information_gender,</if>
+            <if test="personnelInformationDuty != null and personnelInformationDuty != ''">personnel_information_duty,</if>
+            <if test="personnelInformationDepartNumber != null">personnel_information_depart_number,</if>
+            <if test="personnelInformationPhone != null and personnelInformationPhone != ''">personnel_information_phone,</if>
+            <if test="personnelInformationPassword != null">personnel_information_password,</if>
+            <if test="personnelInformationLog != null">personnel_information_log,</if>
+            <if test="personnelInformationRemark != null">personnel_information_remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="personnelInformationId != null">#{personnelInformationId},</if>
+            <if test="personnelInformationName != null">#{personnelInformationName},</if>
+            <if test="personnelInformationGender != null">#{personnelInformationGender},</if>
+            <if test="personnelInformationDuty != null and personnelInformationDuty != ''">#{personnelInformationDuty},</if>
+            <if test="personnelInformationDepartNumber != null">#{personnelInformationDepartNumber},</if>
+            <if test="personnelInformationPhone != null and personnelInformationPhone != ''">#{personnelInformationPhone},</if>
+            <if test="personnelInformationPassword != null">#{personnelInformationPassword},</if>
+            <if test="personnelInformationLog != null">#{personnelInformationLog},</if>
+            <if test="personnelInformationRemark != null">#{personnelInformationRemark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonnelInformation" parameterType="PersonnelInformation">
+        update trace_personnel_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personnelInformationName != null">personnel_information_name = #{personnelInformationName},</if>
+            <if test="personnelInformationGender != null">personnel_information_gender = #{personnelInformationGender},</if>
+            <if test="personnelInformationDuty != null and personnelInformationDuty != ''">personnel_information_duty = #{personnelInformationDuty},</if>
+            <if test="personnelInformationDepartNumber != null">personnel_information_depart_number = #{personnelInformationDepartNumber},</if>
+            <if test="personnelInformationPhone != null and personnelInformationPhone != ''">personnel_information_phone = #{personnelInformationPhone},</if>
+            <if test="personnelInformationPassword != null">personnel_information_password = #{personnelInformationPassword},</if>
+            <if test="personnelInformationLog != null">personnel_information_log = #{personnelInformationLog},</if>
+            <if test="personnelInformationRemark != null">personnel_information_remark = #{personnelInformationRemark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where personnel_information_id = #{personnelInformationId}
+    </update>
+
+    <delete id="deletePersonnelInformationByPersonnelInformationId" parameterType="String">
+        delete from trace_personnel_information where personnel_information_id = #{personnelInformationId}
+    </delete>
+
+    <delete id="deletePersonnelInformationByPersonnelInformationIds" parameterType="String">
+        delete from trace_personnel_information where personnel_information_id in 
+        <foreach item="personnelInformationId" collection="array" open="(" separator="," close=")">
+            #{personnelInformationId}
+        </foreach>
+    </delete>
+</mapper>

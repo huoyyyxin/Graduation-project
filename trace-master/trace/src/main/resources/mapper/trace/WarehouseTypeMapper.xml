@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.WarehouseTypeMapper">
+    
+    <resultMap type="WarehouseType" id="WarehouseTypeResult">
+        <result property="warehouseTypeId"    column="warehouse_type_id"    />
+        <result property="warehouseTypeType"    column="warehouse_type_type"    />
+        <result property="warehouseTypeNotes"    column="warehouse_type_notes"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWarehouseTypeVo">
+        select warehouse_type_id, warehouse_type_type, warehouse_type_notes, create_time, update_time from trace_warehouse_type
+    </sql>
+
+    <select id="selectWarehouseTypeList" parameterType="WarehouseType" resultMap="WarehouseTypeResult">
+        <include refid="selectWarehouseTypeVo"/>
+        <where>  
+            <if test="warehouseTypeType != null  and warehouseTypeType != ''"> and warehouse_type_type = #{warehouseTypeType}</if>
+            <if test="warehouseTypeNotes != null  and warehouseTypeNotes != ''"> and warehouse_type_notes = #{warehouseTypeNotes}</if>
+        </where>
+    </select>
+    
+    <select id="selectWarehouseTypeByWarehouseTypeId" parameterType="Long" resultMap="WarehouseTypeResult">
+        <include refid="selectWarehouseTypeVo"/>
+        where warehouse_type_id = #{warehouseTypeId}
+    </select>
+        
+    <insert id="insertWarehouseType" parameterType="WarehouseType" useGeneratedKeys="true" keyProperty="warehouseTypeId">
+        insert into trace_warehouse_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseTypeType != null">warehouse_type_type,</if>
+            <if test="warehouseTypeNotes != null">warehouse_type_notes,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseTypeType != null">#{warehouseTypeType},</if>
+            <if test="warehouseTypeNotes != null">#{warehouseTypeNotes},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWarehouseType" parameterType="WarehouseType">
+        update trace_warehouse_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseTypeType != null">warehouse_type_type = #{warehouseTypeType},</if>
+            <if test="warehouseTypeNotes != null">warehouse_type_notes = #{warehouseTypeNotes},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where warehouse_type_id = #{warehouseTypeId}
+    </update>
+
+    <delete id="deleteWarehouseTypeByWarehouseTypeId" parameterType="Long">
+        delete from trace_warehouse_type where warehouse_type_id = #{warehouseTypeId}
+    </delete>
+
+    <delete id="deleteWarehouseTypeByWarehouseTypeIds" parameterType="String">
+        delete from trace_warehouse_type where warehouse_type_id in 
+        <foreach item="warehouseTypeId" collection="array" open="(" separator="," close=")">
+            #{warehouseTypeId}
+        </foreach>
+    </delete>
+</mapper>
