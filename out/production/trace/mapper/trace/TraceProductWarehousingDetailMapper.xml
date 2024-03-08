@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.TraceProductWarehousingDetailMapper">
+
+    <resultMap type="TraceProductWarehousingDetail" id="TraceProductWarehousingDetailResult">
+        <result property="id" column="id"/>
+        <result property="productionWarehousingCode" column="production_warehousing_code"/>
+        <result property="productCategoryCode" column="product_category_code"/>
+        <result property="productNumber" column="product_number"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectTraceProductWarehousingDetailVo">
+        select id,
+               production_warehousing_code,
+               product_category_code,
+               product_number,
+               remark,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from trace_product_warehousing_detail
+    </sql>
+
+    <select id="selectTraceProductWarehousingDetailList" parameterType="TraceProductWarehousingDetail"
+            resultMap="TraceProductWarehousingDetailResult">
+        <include refid="selectTraceProductWarehousingDetailVo"/>
+        <where>
+            <if test="productionWarehousingCode != null ">and production_warehousing_code =
+                #{productionWarehousingCode}
+            </if>
+            <if test="productCategoryCode != null  and productCategoryCode != ''">and product_category_code =
+                #{productCategoryCode}
+            </if>
+            <if test="productNumber != null ">and product_number = #{productNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectTraceProductWarehousingDetailById" parameterType="Long"
+            resultMap="TraceProductWarehousingDetailResult">
+        <include refid="selectTraceProductWarehousingDetailVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectTraceProductWarehouseWithCode" parameterType="String">
+        <include refid="selectTraceProductWarehousingDetailVo"/>
+        where production_warehousing_code = #{code}
+    </select>
+    <select id="selectDetailWithCode" resultType="com.ruoyi.trace.domain.TraceProductWarehousingDetail">
+        <include refid="selectTraceProductWarehousingDetailVo"/>
+        where production_warehousing_code = #{code}
+    </select>
+
+    <insert id="insertTraceProductWarehousingDetail" parameterType="TraceProductWarehousingDetail"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into trace_product_warehousing_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productionWarehousingCode != null">production_warehousing_code,</if>
+            <if test="productCategoryCode != null and productCategoryCode != ''">product_category_code,</if>
+            <if test="productNumber != null">product_number,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productionWarehousingCode != null">#{productionWarehousingCode},</if>
+            <if test="productCategoryCode != null and productCategoryCode != ''">#{productCategoryCode},</if>
+            <if test="productNumber != null">#{productNumber},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTraceProductWarehousingDetail" parameterType="TraceProductWarehousingDetail">
+        update trace_product_warehousing_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productionWarehousingCode != null">production_warehousing_code = #{productionWarehousingCode},
+            </if>
+            <if test="productCategoryCode != null and productCategoryCode != ''">product_category_code =
+                #{productCategoryCode},
+            </if>
+            <if test="productNumber != null">product_number = #{productNumber},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTraceProductWarehousingDetailById" parameterType="Long">
+        delete
+        from trace_product_warehousing_detail
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteTraceProductWarehousingDetailByIds" parameterType="String">
+        delete from trace_product_warehousing_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTraceProductionWarehousingDetailByTpwid" parameterType="String">
+        delete from trace_product_warehousing_detail where production_warehousing_code in
+        <foreach item="productionWarehousingCode" collection="array" open='(' separator=',' close=')'>
+            #{productionWarehousingCode}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.TraceProductionWarehousingMapper">
+    
+    <resultMap type="TraceProductionWarehousing" id="TraceProductionWarehousingResult">
+        <result property="id"    column="id"    />
+        <result property="productionWarehousingCode"    column="production_warehousing_code"    />
+        <result property="productionPlanningCode"    column="production_planning_code"    />
+        <result property="productionBatchCode"    column="production_batch_code"    />
+        <result property="productionSterilizationCode"    column="production_sterilization_code"    />
+        <result property="productionWarehouseCode"    column="production_warehouse_code"    />
+        <result property="productionWarehousingDate"    column="production_warehousing_date"    />
+        <result property="productionWarehouseKeeper"    column="production_warehouse_keeper"    />
+        <result property="productionListDate"    column="production_list_date"    />
+        <result property="productListCreator"    column="product_list_creator"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <association property="traceProductWarehousingDetail" javaType="TraceProductWarehousingDetail" column="production_warehousing_code">
+            <result property="productCategoryCode"    column="product_category_code"    />
+            <result property="productNumber"    column="product_number"    />
+            <result property="remark"    column="remark"    />
+        </association>
+    </resultMap>
+    <sql id="selectTraceProductionWarehousingVo">
+        select trace_production_warehousing.*
+        from trace_production_warehousing
+                 </sql>
+
+    <select id="selectTraceProductionWarehousingList" parameterType="TraceProductionWarehousing" resultMap="TraceProductionWarehousingResult">
+        <include refid="selectTraceProductionWarehousingVo"/>
+        <where>  
+            <if test="productionWarehousingCode != null  and productionWarehousingCode != ''"> and trace_production_warehousing.production_warehousing_code = #{productionWarehousingCode}</if>
+            <if test="productionPlanningCode != null  and productionPlanningCode != ''"> and production_planning_code = #{productionPlanningCode}</if>
+            <if test="productionBatchCode != null  and productionBatchCode != ''"> and production_batch_code = #{productionBatchCode}</if>
+            <if test="productionSterilizationCode != null  and productionSterilizationCode != ''"> and production_sterilization_code = #{productionSterilizationCode}</if>
+            <if test="productionWarehouseCode != null  and productionWarehouseCode != ''"> and production_warehouse_code = #{productionWarehouseCode}</if>
+            <if test="productionWarehousingDate != null "> and production_warehousing_date = #{productionWarehousingDate}</if>
+            <if test="productionWarehouseKeeper != null  and productionWarehouseKeeper != ''"> and production_warehouse_keeper like concat('%',#{productionWarehouseKeeper},'%')</if>
+            <if test="productionListDate != null "> and production_list_date = #{productionListDate}</if>
+            <if test="productListCreator != null  and productListCreator != ''"> and product_list_creator like concat('%',#{productListCreator},'%')</if>
+        </where>
+    </select>
+
+    <select id="selectTraceProductionWarehousingListEqual" parameterType="TraceProductionWarehousing" resultMap="TraceProductionWarehousingResult">
+        <include refid="selectTraceProductionWarehousingVo"/>
+        <where>
+            <if test="productionWarehousingCode != null  and productionWarehousingCode != ''"> and trace_production_warehousing.production_warehousing_code = #{productionWarehousingCode}</if>
+            <if test="productionPlanningCode != null  and productionPlanningCode != ''"> and production_planning_code = #{productionPlanningCode}</if>
+            <if test="productionBatchCode != null  and productionBatchCode != ''"> and production_batch_code = #{productionBatchCode}</if>
+            <if test="productionSterilizationCode != null  and productionSterilizationCode != ''"> and production_sterilization_code = #{productionSterilizationCode}</if>
+            <if test="productionWarehouseCode != null  and productionWarehouseCode != ''"> and production_warehouse_code = #{productionWarehouseCode}</if>
+            <if test="productionWarehousingDate != null "> and production_warehousing_date = #{productionWarehousingDate}</if>
+            <if test="productionWarehouseKeeper != null  and productionWarehouseKeeper != ''"> and production_warehouse_keeper = #{productionWarehouseKeeper}</if>
+            <if test="productionListDate != null "> and production_list_date = #{productionListDate}</if>
+            <if test="productListCreator != null  and productListCreator != ''"> and product_list_creator = #{productListCreator}</if>
+        </where>
+    </select>
+    
+    <select id="selectTraceProductionWarehousingById" parameterType="Long" resultMap="TraceProductionWarehousingResult">
+        <include refid="selectTraceProductionWarehousingVo"/>
+        where trace_production_warehousing.id = #{id}
+    </select>
+    <select id="selectAllCode" resultType="com.ruoyi.trace.domain.TraceProductionWarehousing">
+        select from trace_production_warehousing where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </select>
+
+    <insert id="insertTraceProductionWarehousing" parameterType="TraceProductionWarehousing" useGeneratedKeys="true" keyProperty="id">
+        insert into trace_production_warehousing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productionWarehousingCode != null and productionWarehousingCode != ''">production_warehousing_code,</if>
+            <if test="productionPlanningCode != null and productionPlanningCode != ''">production_planning_code,</if>
+            <if test="productionBatchCode != null">production_batch_code,</if>
+            <if test="productionSterilizationCode != null">production_sterilization_code,</if>
+            <if test="productionWarehouseCode != null">production_warehouse_code,</if>
+            <if test="productionWarehousingDate != null">production_warehousing_date,</if>
+            <if test="productionWarehouseKeeper != null">production_warehouse_keeper,</if>
+            <if test="productionListDate != null">production_list_date,</if>
+            <if test="productListCreator != null">product_list_creator,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productionWarehousingCode != null and productionWarehousingCode != ''">#{productionWarehousingCode},</if>
+            <if test="productionPlanningCode != null and productionPlanningCode != ''">#{productionPlanningCode},</if>
+            <if test="productionBatchCode != null">#{productionBatchCode},</if>
+            <if test="productionSterilizationCode != null">#{productionSterilizationCode},</if>
+            <if test="productionWarehouseCode != null">#{productionWarehouseCode},</if>
+            <if test="productionWarehousingDate != null">#{productionWarehousingDate},</if>
+            <if test="productionWarehouseKeeper != null">#{productionWarehouseKeeper},</if>
+            <if test="productionListDate != null">#{productionListDate},</if>
+            <if test="productListCreator != null">#{productListCreator},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTraceProductionWarehousing" parameterType="TraceProductionWarehousing">
+        update trace_production_warehousing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productionWarehousingCode != null and productionWarehousingCode != ''">production_warehousing_code = #{productionWarehousingCode},</if>
+            <if test="productionPlanningCode != null and productionPlanningCode != ''">production_planning_code = #{productionPlanningCode},</if>
+            <if test="productionBatchCode != null">production_batch_code = #{productionBatchCode},</if>
+            <if test="productionSterilizationCode != null">production_sterilization_code = #{productionSterilizationCode},</if>
+            <if test="productionWarehouseCode != null">production_warehouse_code = #{productionWarehouseCode},</if>
+            <if test="productionWarehousingDate != null">production_warehousing_date = #{productionWarehousingDate},</if>
+            <if test="productionWarehouseKeeper != null">production_warehouse_keeper = #{productionWarehouseKeeper},</if>
+            <if test="productionListDate != null">production_list_date = #{productionListDate},</if>
+            <if test="productListCreator != null">product_list_creator = #{productListCreator},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTraceProductionWarehousingById" parameterType="Long">
+        delete from trace_production_warehousing where id = #{id}
+    </delete>
+
+    <delete id="deleteTraceProductionWarehousingByIds" parameterType="String">
+        delete from trace_production_warehousing where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

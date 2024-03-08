@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trace.mapper.SaleOutboundMapper">
+    
+    <resultMap type="SaleOutbound" id="SaleOutboundResult">
+        <result property="id"    column="id"    />
+        <result property="sale OutboundId"    column="sale _outbound_id"    />
+        <result property="saleOrderId"    column="sale_order_id"    />
+        <result property="warehouseId"    column="warehouse_id"    />
+        <result property="tableCreatorId"    column="table_creator_id"    />
+        <result property="tableDate"    column="table_date"    />
+        <result property="warehouseKeeperId"    column="warehouse_keeper_id"    />
+        <result property="saleOutboundDate"    column="sale_outbound_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSaleOutboundVo">
+        select id, sale _outbound_id, sale_order_id, warehouse_id, table_creator_id, table_date, warehouse_keeper_id, sale_outbound_date, remark, create_by, create_time, update_by, update_time from trace_sale_outbound
+    </sql>
+
+    <select id="selectSaleOutboundList" parameterType="SaleOutbound" resultMap="SaleOutboundResult">
+        <include refid="selectSaleOutboundVo"/>
+        <where>  
+            <if test="sale OutboundId != null  and sale OutboundId != ''"> and sale _outbound_id = #{sale OutboundId}</if>
+            <if test="saleOrderId != null  and saleOrderId != ''"> and sale_order_id = #{saleOrderId}</if>
+            <if test="warehouseId != null  and warehouseId != ''"> and warehouse_id = #{warehouseId}</if>
+            <if test="tableCreatorId != null  and tableCreatorId != ''"> and table_creator_id = #{tableCreatorId}</if>
+            <if test="tableDate != null "> and table_date = #{tableDate}</if>
+            <if test="warehouseKeeperId != null  and warehouseKeeperId != ''"> and warehouse_keeper_id = #{warehouseKeeperId}</if>
+            <if test="saleOutboundDate != null "> and sale_outbound_date = #{saleOutboundDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSaleOutboundById" parameterType="Long" resultMap="SaleOutboundResult">
+        <include refid="selectSaleOutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSaleOutbound" parameterType="SaleOutbound" useGeneratedKeys="true" keyProperty="id">
+        insert into trace_sale_outbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sale OutboundId != null and sale OutboundId != ''">sale _outbound_id,</if>
+            <if test="saleOrderId != null and saleOrderId != ''">sale_order_id,</if>
+            <if test="warehouseId != null">warehouse_id,</if>
+            <if test="tableCreatorId != null and tableCreatorId != ''">table_creator_id,</if>
+            <if test="tableDate != null">table_date,</if>
+            <if test="warehouseKeeperId != null and warehouseKeeperId != ''">warehouse_keeper_id,</if>
+            <if test="saleOutboundDate != null">sale_outbound_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sale OutboundId != null and sale OutboundId != ''">#{sale OutboundId},</if>
+            <if test="saleOrderId != null and saleOrderId != ''">#{saleOrderId},</if>
+            <if test="warehouseId != null">#{warehouseId},</if>
+            <if test="tableCreatorId != null and tableCreatorId != ''">#{tableCreatorId},</if>
+            <if test="tableDate != null">#{tableDate},</if>
+            <if test="warehouseKeeperId != null and warehouseKeeperId != ''">#{warehouseKeeperId},</if>
+            <if test="saleOutboundDate != null">#{saleOutboundDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSaleOutbound" parameterType="SaleOutbound">
+        update trace_sale_outbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sale OutboundId != null and sale OutboundId != ''">sale _outbound_id = #{sale OutboundId},</if>
+            <if test="saleOrderId != null and saleOrderId != ''">sale_order_id = #{saleOrderId},</if>
+            <if test="warehouseId != null">warehouse_id = #{warehouseId},</if>
+            <if test="tableCreatorId != null and tableCreatorId != ''">table_creator_id = #{tableCreatorId},</if>
+            <if test="tableDate != null">table_date = #{tableDate},</if>
+            <if test="warehouseKeeperId != null and warehouseKeeperId != ''">warehouse_keeper_id = #{warehouseKeeperId},</if>
+            <if test="saleOutboundDate != null">sale_outbound_date = #{saleOutboundDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSaleOutboundById" parameterType="Long">
+        delete from trace_sale_outbound where id = #{id}
+    </delete>
+
+    <delete id="deleteSaleOutboundByIds" parameterType="String">
+        delete from trace_sale_outbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

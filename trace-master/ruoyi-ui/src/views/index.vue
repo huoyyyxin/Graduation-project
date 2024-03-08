@@ -4,7 +4,7 @@
 		<el-carousel indicator-position="outside">
 			<el-carousel-item v-for="(item,index) in list" :key="index">
 				<!-- <h3>{{ item }}</h3> -->
-				<img :src="item" alt="" />
+				<img   class="swiper" :src="item" alt="" />
 			</el-carousel-item>
 		</el-carousel>
 		<!-- <img src="../utils/image/yl1.gif" alt="" /> -->
@@ -17,9 +17,10 @@
 		data() {
 			return {
 				list:[
-					'../utils/image/yl3.jpg',
-					'../utils/image/yl3.jpg',
-					'../utils/image/yl3.jpg',
+					
+					'/image/yl3.jpg',
+					'/image/yl3.jpg',
+					'/image/yl3.jpg',
 				],
 			};
 		},
@@ -48,5 +49,10 @@
 		.el-carousel__item:nth-child(2n+1) {
 			background-color: #d3dce6;
 		}
+		.swiper{
+		width: 100%;
+		height: calc(100vw*9/16);
+		}
 	}
+
 </style>
